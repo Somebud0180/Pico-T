@@ -77,5 +77,6 @@
     [ "encoder1:DT", "pico:GP14", "yellow", [ "h19.2", "v9.7", "h19.2" ] ],
     [ "encoder1:SW", "pico:GP15", "limegreen", [ "h19.2", "v9.66" ] ]
   ],
+  "serialMonitor": { "display": "always", "newline": "lf", "convertEol": false },
   "dependencies": {}
 }

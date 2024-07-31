@@ -3,4 +3,3 @@
 
 LiquidCrystal
 DHT sensor library
-EasyLed
