@@ -22,7 +22,6 @@ LiquidCrystal lcd(12, 11, 10, 9, 8, 7);
 DHT dht(DHTPIN, DHTTYPE);
 
 void setup() {
-  Serial1.begin(115200);
   pinMode(buttonPin, INPUT);
   pinMode(pinR, OUTPUT);
   pinMode(pinG, OUTPUT);
@@ -49,11 +48,9 @@ void readEncoder() {
   int dtValue = digitalRead(ENCODER_DT);
   if (dtValue == HIGH) {
     hotTemp++;
-    Serial1.println(hotTemp);
   }
   if (dtValue == LOW) {
     hotTemp--;
-    Serial1.println(hotTemp);
   }
   warmTemp = hotTemp - 2;
 }
