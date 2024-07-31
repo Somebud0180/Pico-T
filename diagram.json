@@ -1,0 +1,75 @@
+{
+  "version": 1,
+  "author": "The Bin - Hack Club",
+  "editor": "wokwi",
+  "parts": [
+    { "type": "board-pi-pico-w", "id": "pico", "top": -22.45, "left": 99.55, "attrs": {} },
+    {
+      "type": "wokwi-pushbutton",
+      "id": "wokwi-pushbutton-0",
+      "top": -66.6,
+      "left": 284.2,
+      "rotate": 270,
+      "attrs": { "color": "red", "bounce": "0" }
+    },
+    {
+      "type": "wokwi-lcd1602",
+      "id": "wokwi-lcd1602-0",
+      "top": -255.77,
+      "left": -99.2,
+      "attrs": {}
+    },
+    { "type": "wokwi-dht22", "id": "wokwi-dht22-0", "top": -124.5, "left": 388.2, "attrs": {} },
+    {
+      "type": "wokwi-resistor",
+      "id": "r1",
+      "top": -91.2,
+      "left": 37.85,
+      "rotate": 90,
+      "attrs": { "value": "220" }
+    },
+    {
+      "type": "wokwi-resistor",
+      "id": "r2",
+      "top": 52.25,
+      "left": 200.2,
+      "rotate": 180,
+      "attrs": { "value": "10000" }
+    },
+    {
+      "type": "wokwi-neopixel",
+      "id": "rgb1",
+      "top": 70.9,
+      "left": 258.4,
+      "rotate": 180,
+      "attrs": {}
+    }
+  ],
+  "connections": [
+    [ "pico:GP0", "$serialMonitor:RX", "", [] ],
+    [ "pico:GP1", "$serialMonitor:TX", "", [] ],
+    [ "wokwi-lcd1602-0:VSS", "pico:GND.1", "black", [ "v0" ] ],
+    [ "wokwi-lcd1602-0:RW", "pico:GND.1", "black", [ "v0" ] ],
+    [ "wokwi-lcd1602-0:K", "pico:GND.1", "black", [ "v0" ] ],
+    [ "wokwi-lcd1602-0:RS", "pico:GP12", "#8f4814", [ "v0" ] ],
+    [ "wokwi-lcd1602-0:E", "pico:GP11", "orange", [ "v0" ] ],
+    [ "wokwi-lcd1602-0:D4", "pico:GP10", "gold", [ "v0" ] ],
+    [ "wokwi-lcd1602-0:D5", "pico:GP9", "green", [ "v0" ] ],
+    [ "wokwi-lcd1602-0:D6", "pico:GP8", "blue", [ "v0" ] ],
+    [ "wokwi-lcd1602-0:D7", "pico:GP7", "violet", [ "v0" ] ],
+    [ "wokwi-lcd1602-0:A", "r1:1", "magenta", [ "v0" ] ],
+    [ "wokwi-pushbutton-0:2.l", "pico:GP28", "yellow", [ "v57.6", "h-153.71" ] ],
+    [ "wokwi-dht22-0:GND", "pico:GND.6", "black", [ "v0" ] ],
+    [ "pico:GP28", "r2:1", "yellow", [ "h0" ] ],
+    [ "r2:2", "pico:GND.7", "black", [ "h8.4", "v9.6" ] ],
+    [ "wokwi-dht22-0:SDA", "pico:GP27", "cyan", [ "v0" ] ],
+    [ "r1:2", "pico:3V3", "magenta", [ "v8.4", "h124.8", "v76.8" ] ],
+    [ "wokwi-lcd1602-0:VDD", "pico:3V3", "red", [ "v96", "h240.1", "v67.2" ] ],
+    [ "wokwi-dht22-0:VCC", "pico:3V3", "gray", [ "v0" ] ],
+    [ "wokwi-pushbutton-0:1.l", "pico:3V3", "purple", [ "v0" ] ],
+    [ "rgb1:VDD", "pico:3V3", "orange", [ "h9.6", "v-57.6", "h-115.51" ] ],
+    [ "rgb1:DIN", "pico:GP26", "green", [ "h-37.6", "v-9.6" ] ],
+    [ "rgb1:VSS", "pico:GND.6", "black", [ "h-18.4", "v20.1" ] ]
+  ],
+  "dependencies": {}
+}
