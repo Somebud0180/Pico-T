@@ -2,28 +2,37 @@
 
 #include <LiquidCrystal.h>
 #include <DHT.h>
-#include <EasyLed.h>
 
 #define DHTPIN 27
 #define DHTTYPE DHT22
-#define LEDPIN 26
-#define LEDAL HIGH
+#define ENCODER_CLK 13
+#define ENCODER_DT  14
 
-EasyLed led(LEDPIN, EasyLed::ActiveLevel::Low);
+const int pinR = 20;
+const int pinG = 19;
+const int pinB = 18;
+const int buttonPin = 28;
+int oldButton = LOW;
+int lastClk = HIGH;
+float hotTemp = 32;
 
 LiquidCrystal lcd(12, 11, 10, 9, 8, 7);
 DHT dht(DHTPIN, DHTTYPE);
-const int buttonPin = 28;
-int oldButton = LOW;
 
 void setup() {
+  Serial1.begin(115200);
   pinMode(buttonPin, INPUT);
-
+  pinMode(ENCODER_CLK, INPUT);
+  pinMode(ENCODER_DT, INPUT);
+  pinMode(pinR, OUTPUT);
+  pinMode(pinG, OUTPUT);
+  pinMode(pinB, OUTPUT);
+  
   lcd.begin(16, 2);
   lcd.print("Press the button");
 
   lcd.setCursor(0, 1);
-  lcd.print("to check weather");
+  lcd.print("to check temps");
 
   delay(5000);
   lcd.clear();
@@ -31,7 +40,6 @@ void setup() {
 }
 
 void loop() {
-  // put your main code here, to run repeatedly:
   //Humidity
   float humid = dht.readHumidity();
   //Temperature (Celcius)
@@ -49,19 +57,33 @@ void loop() {
     return;
   }
 
-  int newButton = digitalRead(buttonPin);
+  int newClk = digitalRead(ENCODER_CLK);
+  if (newClk != lastClk) {
+    // There was a change on the CLK pin
+    lastClk = newClk;
+    int dtValue = digitalRead(ENCODER_DT);
+    if (newClk == LOW && dtValue == HIGH) {
+      hotTemp++;
+      Serial1.println(hotTemp);
+    }
+    if (newClk == LOW && dtValue == LOW) {
+      hotTemp--;
+      Serial1.println(hotTemp);
+    }
+    float warmTemp = hotTemp - 2;
+    float coolTemp = warmTemp - 2;
+  }
 
+  int newButton = digitalRead(buttonPin);
   if(newButton != oldButton)
   {
     if(newButton == HIGH)
     {
-      led.on();
       lcd.display();
       lcd.print(String("It's ") + String(temp,0) + (char)223 + String("C ") + String("H: ") + String(humid,0) + String("%"));
       lcd.setCursor(0, 1);
       lcd.print(String("Feels Like: " + String(feelsLike,0) + (char)223 + String("C)")));
       delay(5000);
-      led.off();
       lcd.clear();
       lcd.noDisplay();
     }
